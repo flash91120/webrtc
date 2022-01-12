@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <div></div>
+      <div>
+        <label>audio input device:</label>
+        <select id="audioSource"></select>
+      </div>
+      <br />
+      <div>
+        <label>audio output device:</label>
+        <select id="audioOutput"></select>
+      </div>
+      <br />
+      <div>
+        <label>video intput device:</label>
+        <select id="videoSource"></select>
+      </div>
+      <br />
+      <table>
+        <tr>
+          <td>
+            <video autoplay playsinline id="player"></video>
+          </td>
+          <td>
+            <canvas id="picture"></canvas>
+          </td>
+          <td>
+            <div id="constraints" class="output"></div>
+          </td>
+        </tr>
+      </table>
+      <br />
+      <div>
+        <button id="snapshot">拍照</button>
+      </div>
+    </div>
+
+    <!--一个适配脚本,让更多浏览器可以兼容getUserMedia()这个函数-->
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>WebRTC PeerConnection</title>
+  </head>
+  <body>
+    <table align="center">
+      <tr>
+        <td>
+          <button id="connserver">Connect Sig Server</button>
+          <button id="leave">Leave</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h2>Local:</h2>
+          <video
+            width="320"
+            height="240"
+            id="localvideo"
+            autoplay
+            playsinline
+            muted
+          ></video>
+        </td>
+        <td>
+          <h2>Remote:</h2>
+          <video
+            width="320"
+            height="240"
+            id="remotevideo"
+            autoplay
+            playsinline
+          ></video>
+        </td>
+      </tr>
+    </table>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <!--使代码具有更好的兼容性-->
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="./js/index.js"></script>
+  </body>
+</html>

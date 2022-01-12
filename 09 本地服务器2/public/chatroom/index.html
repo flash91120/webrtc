@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Chat Room</title>
+  </head>
+  <body>
+    <!--居中表格-->
+    <table align="center">
+      <tr>
+        <td>
+          <label>UserName</label>
+          <input type="text" id="username" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>room:</label>
+          <input type="text" id="room" />
+          <button id="connect">Connect</button>
+          <button id="leave" disabled>Leave</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Content:</label><br />
+          <textarea disabled id="output" cols="50" rows="10"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Input</label><br />
+          <textarea disabled id="input" cols="50" rows="3"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button id="send" disabled>Send</button>
+        </td>
+      </tr>
+    </table>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
