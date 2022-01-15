@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>WebRTC PeerConnection</title>
+  </head>
+  <body>
+    <table align="center">
+      <tr>
+        <td>
+          <button id="connserver">Connect Sig Server</button>
+          <button id="leave">Leave</button>
+        </td>
+        <td>
+          <label>BandWidth</label>
+          <select id="bandwidth" disabled>
+            <option value="unlimited" selected>unlimited</option>
+            <option value="2000">2000</option>
+            <option value="1000">1000</option>
+            <option value="500">500</option>
+            <option value="250">250</option>
+            <option value="125">125</option>
+          </select>
+          <label>kbps</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h2>Local:</h2>
+          <video
+            width="320"
+            height="240"
+            id="localvideo"
+            autoplay
+            playsinline
+            muted
+          ></video>
+        </td>
+        <td>
+          <h2>Remote:</h2>
+          <video
+            width="320"
+            height="240"
+            id="remotevideo"
+            autoplay
+            playsinline
+          ></video>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h2>Bitrate</h2>
+          <canvas id="bitrateCanvas"></canvas>
+        </td>
+        <td>
+          <h2>Packets sent per second</h2>
+          <canvas id="packetCanvas"></canvas>
+        </td>
+      </tr>
+    </table>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <!--使代码具有更好的兼容性-->
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="./js/index.js"></script>
+    <script src="./js/third_party/graph.js"></script>
+  </body>
+</html>
