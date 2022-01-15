@@ -283,7 +283,7 @@ window.setInterval(() => {
     .getStats()
     .then((reports) => {
       reports.forEach((report) => {
-        if (report.type) {
+        if (report.type === "outbound-rtp") {
           //需要本地发送的数据量,不需要远端发来的数据
           if (report.isRemote) {
             return;
@@ -297,16 +297,16 @@ window.setInterval(() => {
             var bitrate =
               (8 * (bytes - lastResult.get(report.id).bytesSent)) /
               (curTs - lastResult.get(report.id).timestamp);
+            bitrateSeries.addPoint(curTs, bitrate);
+            bitrateGraph.setDataSeries([bitrateSeries]);
+            bitrateGraph.updateEndDate();
+            packetSeries.addPoint(
+              curTs,
+              packets - lastResult.get(report.id).packetsSent
+            );
+            packetGraph.setDataSeries([packetSeries]);
+            packetGraph.updateEndDate();
           }
-          bitrateSeries.addPoint(curTs, bitrate);
-          bitrateGraph.setDataSeries([bitrateSeries]);
-          bitrateGraph.updateEndDate();
-          packetSeries.addPoint(
-            curTs,
-            packets - lastResult.get(report.id).packetsSent
-          );
-          packetGraph.setDataSeries([packetSeries]);
-          packetGraph.updateEndDate();
         }
       });
       lastResult = reports;
