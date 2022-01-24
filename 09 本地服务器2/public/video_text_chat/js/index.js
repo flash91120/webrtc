@@ -1,5 +1,7 @@
 "use strict";
 
+//const { type } = require("express/lib/response");
+
 var localVideo = document.querySelector("video#localvideo");
 var remoteVideo = document.querySelector("video#remotevideo"); //用于显示远端传来的数据
 
@@ -19,6 +21,9 @@ var pcConfig = {
     },
   ],
 };
+
+var text_relay;
+var relayState = "receive";
 
 var localStream = null;
 
@@ -63,8 +68,16 @@ function call() {
 }
 function receivemsg(e) {
   var msg = e.data;
+  //@#t
   if (msg) {
-    chat.value += "receive:" + msg + "\r\n";
+    if (msg[0] === "@" && msg[1] === "#" && msg[2] === "t") {
+      //console.log(dater.getTime() - parseInt(msg.split("@#t")[1]));
+    } else {
+      chat.value += "receive:" + msg + "\r\n";
+      var dater = new Date();
+      console.log(dater.getTime());
+      dater = null;
+    }
   } else {
     console.error("received msg is null");
   }
@@ -161,7 +174,6 @@ function getMediaStream(stream) {
   //在页面展示本地视频
   localVideo.srcObject = stream;
   localStream = stream;
-
   conn(); //用于socket.io进行连接,并且接受服务端的消息
 }
 function handleError(err) {
@@ -264,9 +276,15 @@ function closePeerConnection() {
 }
 
 function sendText() {
+  var dater = new Date();
+  console.log(dater.getTime());
+  dater = null;
   var data = send_txt.value;
   if (data) {
     dc.send(data);
+    //text_relay = dater.getTime(); //发送后开始计时
+    
+    //dc.send("@#t" + text_relay);
   }
   send_txt.value = "";
   chat.value += "send:" + data + "\r\n";
