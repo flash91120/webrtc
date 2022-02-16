@@ -9,6 +9,8 @@ var btnConn = document.querySelector("button#connserver");
 var btnLeave = document.querySelector("button#leave");
 
 var chat = document.querySelector("textarea#chat");
+var chat_delay = document.querySelector("input#chat_delay");
+var video_delay = document.querySelector("input#video_delay");
 var send_txt = document.querySelector("textarea#sendtxt");
 var btnSend = document.querySelector("button#send");
 
@@ -68,16 +70,16 @@ function call() {
 }
 function receivemsg(e) {
   var msg = e.data;
-  //@#t
+  //1644906815110@aaaa
   if (msg) {
-    if (msg[0] === "@" && msg[1] === "#" && msg[2] === "t") {
-      //console.log(dater.getTime() - parseInt(msg.split("@#t")[1]));
-    } else {
-      chat.value += "receive:" + msg + "\r\n";
-      var dater = new Date();
-      console.log(dater.getTime());
-      dater = null;
+    var dater = new Date();
+    var rec = msg.split("@");
+    chat_delay.value = dater.getTime() - parseInt(rec[0], 10);
+    if (chat_delay.value < 0) {
+      chat_delay.value = -chat_delay.value;
     }
+    chat.value += "receive:" + rec[1] + "\r\n";
+    dater = null;
   } else {
     console.error("received msg is null");
   }
@@ -278,17 +280,50 @@ function closePeerConnection() {
 function sendText() {
   var dater = new Date();
   console.log(dater.getTime());
-  dater = null;
-  var data = send_txt.value;
+  var data = dater.getTime() + "@" + send_txt.value;
   if (data) {
     dc.send(data);
     //text_relay = dater.getTime(); //发送后开始计时
-    
+
     //dc.send("@#t" + text_relay);
   }
   send_txt.value = "";
   chat.value += "send:" + data + "\r\n";
 }
+
+window.setInterval(() => {
+  if (!pc) {
+    return;
+  }
+  var receiver = pc.getReceivers()[1]; //获取视频的receiver
+  if (!receiver) {
+    return;
+  }
+  receiver
+    .getStats()
+    .then((reports) => {
+      console.log("reciver's reports:")
+      reports.forEach((report) => {
+        console.log(report);
+        if (report.type == "candidate-pair"){
+          video_delay.value = report.currentRoundTripTime * 1000;
+        }
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  var sender = pc.getReceivers()[1];
+  if (!sender) {
+    return;
+  }
+  receiver.getStats().then((reports) => {
+    console.log("sender's reports:")
+    reports.forEach((report) => {
+      console.log(report);
+    });
+  });
+}, 1000);
 
 btnConn.onclick = connSignalServer;
 btnLeave.onclick = leave;
