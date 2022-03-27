@@ -313,7 +313,7 @@ window.setInterval(() => {
     .catch((err) => {
       console.error(err);
     });
-  var sender = pc.getReceivers()[1];
+  var sender = pc.getSenders()[1];
   if (!sender) {
     return;
   }
