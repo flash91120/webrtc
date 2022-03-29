@@ -134,3 +134,12 @@ function connSignalServer() {
 
 btnConn.onclick = connSignalServer;
 btnLeave.onclick = leave;
+
+new QWebChannel(qt.webChannelTransport,
+  function(channel) {
+    var content = channel.objects.content;  // 注意这里的名字与注册时的一致
+    updateText(content.text);  // js自定义的函数
+     // textChanged是content自定义的一个信号，相当于信号连接了一个函数
+    content.textChanged.connect(updateText);  
+  }
+);

@@ -3,12 +3,16 @@
 //const { type } = require("express/lib/response");
 
 var localVideo = document.querySelector("video#localvideo");
-
 var btnConn = document.querySelector("button#connserver");
+var fpsSelect = document.querySelector("select#fps");
+var resolutionSelect = document.querySelector("select#resolution");
 
-var state = "init"
+var selectedIndex;
+var selectedIndex2;
+
+var state = "init";
 var localStream = null;
-var roomid = "111111"
+var roomid = "111111";
 var socket = null;
 var pc = null;
 
@@ -150,13 +154,19 @@ function start() {
     console.log("mediaDevices is not support");
     return;
   } else {
+    selectedIndex = resolutionSelect.selectedIndex;
+    selectedIndex2 = fpsSelect.selectedIndex;
+    var str = resolutionSelect.options[selectedIndex].value.split("*");
+    localVideo.width = parseInt(str[0]);
+    localVideo.height = parseInt(str[1]);
     var constraints = {
       video: {
-        width: 640,
-        height: 480,
-        frameRate: 30,
+        width: parseInt(str[0]),
+        height: parseInt(str[1]),
+        frameRate: parseInt(fpsSelect.options[selectedIndex2].value),
       },
-      audio: true,
+      //设置音频打开降噪、回声消除
+      audio: { noiseSuppression: true, echoCancellation: true },
     };
     navigator.mediaDevices
       .getUserMedia(constraints)
